@@ -16,35 +16,43 @@ const port = 9000;
 
 Mongoose.connect("mongodb://localhost:27017/demo", { useNewUrlParser: true });
 
+app.use(function (req, res, next) {
+  res.setHeader("Access-Control-Allow-Origin", "*");
+  res.setHeader(
+    "Access-Control-Allow-Methods",
+    "GET, POST, OPTIONS, PUT, PATCH, DELETE"
+  );
+  res.setHeader(
+    "Access-Control-Allow-Headers",
+    "X-Requested-With,content-type"
+  );
+  res.setHeader("Access-Control-Allow-Credentials", true);
+  next();
+});
 app.use("/", router);
 
 router.get("/fetchByExperience", function (req, response) {
-  Employee.find([
-    // Grouping pipeline
-    {
-      $group: {
-        _id: "$roomId",
-      },
-    },
-    // Sorting pipeline
-    { $sort: { total_experience: -1 } },
-    // Optionally limit results
-    { $limit: 5 },
-  ]).then((employee) => {
-    if (employee) response.send(employee);
-    else response.error(error);
+  Employee.find({}).then((employee) => {
+    if (!employee) {
+      return response.status(404).json({ error: "There is no data found" });
+    }
+    response.send(employee);
   });
 });
 router.get("/fetchByExperience", function (req, response) {
   Employee.find({}).then((employee) => {
-    if (employee) response.send(employee);
-    else response.error(error);
+    if (!employee) {
+      return response.status(404).json({ error: "There is no data found" });
+    }
+    response.send(employee);
   });
 });
 router.get("/fetchByEfficiencyRange", function (req, response) {
   Employee.find({}).then((employee) => {
-    if (employee) response.send(employee);
-    else response.error(error);
+    if (!employee) {
+      return response.status(404).json({ error: "There is no data found" });
+    }
+    response.send(employee);
   });
 });
 

@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Document</title>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+    <style>
+      table,
+      td,
+      th {
+        border: 1px solid black;
+      }
+
+      table {
+        border-collapse: collapse;
+        width: 100%;
+      }
+
+      td {
+        height: 50px;
+        vertical-align: bottom;
+      }
+    </style>
+  </head>
+  <body>
+    <table id="mytable">
+      <tr>
+        <th>Name</th>
+        <th>Salary</th>
+        <th>Efficiency</th>
+        <th>Total Experience</th>
+      </tr>
+      <div></div>
+    </table>
+    <script type="text/javascript">
+      $(document).ready(function () {
+        var url = "http://localhost:9000/fetchByEfficiencyRange";
+        $.getJSON(url, function (data) {
+          for (var i = 0; i < data.length; i++) {
+            var tr =
+              "<tr>" +
+              "<td>" +
+                data[i]["name"] +
+              "</td>" +
+              "<td>" +
+                data[i]["salary"] +
+              "</td>" +
+              "<td>" +
+                data[i]["efficiency"] +
+              "</td>" +
+              "<td>" +
+                data[i]["total_experience"] +
+              "</td></tr>";
+            $("#mytable").append(tr);
+          }
+        });
+      });
+    </script>
+  </body>
+</html>
